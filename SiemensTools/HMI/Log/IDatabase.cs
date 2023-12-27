@@ -1,10 +1,10 @@
-﻿namespace SiemensTools.HMI.Log;
+﻿using SiemensTools.Database;
+
+namespace SiemensTools.HMI.Log;
 
 public interface IDatabase
 {
-  Dictionary<string, string> GetStructure();
-
-  string[] GetSchema();
+  DatabaseSchema GetSchema();
   void ReadData();
 }
 
