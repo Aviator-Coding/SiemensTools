@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SiemensTools.HMI.Log
+namespace SiemensTools.HMI.Log.Enum
 {
     public enum EnumState
     {

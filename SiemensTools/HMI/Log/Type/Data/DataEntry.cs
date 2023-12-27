@@ -1,4 +1,4 @@
-﻿namespace SiemensTools.HMI.Log;
+﻿namespace SiemensTools.HMI.Log.Type.Data;
 //-------------------------------
 // Datalog Sqlite Structure
 //-------------------------------
@@ -8,10 +8,10 @@
 //["Validity"] = "INT",
 //["Time_ms"] = "DOUBLE"
 
-public class DataLogEntry : LogEntryBaseClass
+public class DataEntry : BaseClassEntry
 {
     public string VarName { get; set; } = string.Empty;
-    public string TimeString {  get; set; } = string.Empty;
+    public string TimeString { get; set; } = string.Empty;
     public double VarValue { get; set; }
     public int Validity { get; set; }
     public double TimeInMs { get; set; }
@@ -19,7 +19,7 @@ public class DataLogEntry : LogEntryBaseClass
     {
         get
         {
-                return ConvertMillisecondsToDateTime(TimeInMs); 
+            return ConvertMillisecondsToDateTime(TimeInMs);
         }
     }
 }

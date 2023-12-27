@@ -1,4 +1,6 @@
-﻿namespace SiemensTools.HMI.Log;
+﻿using SiemensTools.HMI.Log.Enum;
+
+namespace SiemensTools.HMI.Log.Type.Alarm;
 
 //-------------------------------
 // AlarmDB Sqlite Structure
@@ -20,7 +22,7 @@
 //["MsgText"] = "TEXT",
 //["PLC"] = "TEXT"
 
-public class AlarmLogEntry : LogEntryBaseClass
+public class AlarmEntry : BaseClassEntry
 {
     public double TimeInMs { get; set; }
     public DateTime Time

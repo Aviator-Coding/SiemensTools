@@ -1,6 +1,6 @@
-﻿namespace SiemensTools.HMI.Log;
+﻿namespace SiemensTools.HMI.Log.Type;
 
-public class LogEntryBaseClass
+public class BaseClassEntry
 {
     public static DateTime ConvertMillisecondsToDateTime(double timeInMilliseconds)
     {
