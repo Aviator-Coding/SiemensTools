@@ -2,6 +2,7 @@ using System.Reflection;
 using SiemensTools.Database;
 using SiemensTools.HMI.Log;
 using Xunit;
+using Moq;
 
 namespace UnitTest.HMI.Log;
 public class DatabaseFactoryTest
@@ -126,6 +127,68 @@ public class DatabaseFactoryTest
     Assert.DoesNotContain(schema.Columns, c => c.Name == "PLC");
 
   }
+
+
+  [Fact]
+  public async Task GetDatabaseAsync_LoadDatabaseTypes_ReturnsDatabaseTypes()
+  {
+    var dbFactory = new DatabaseFactory(AlarmLog);
+    // Act
+    var method = typeof(DatabaseFactory)
+      .GetMethod("LoadDatabaseTypes", BindingFlags.NonPublic | BindingFlags.Instance);
+
+    var task = (List<IDatabase>)method.Invoke(dbFactory, null);
+  }
+
+
+  // [Fact]
+  // public async Task GetDatabaseAsync_MatchesSchema_ReturnsDatabaseType()
+  // {
+  //   // Arrange
+  //   var mockDbType = new Mock<IDatabase>();
+  //   mockDbType.Setup(x => x.GetSchema()).Returns(new DatabaseSchema());
+
+  //   var dbFactory = new DatabaseFactory(AlarmLog);
+  //   //dbFactory.DatabaseTypes = new List<IDatabase>() { mockDbType.Object };
+
+  //   // Act
+  //   var result = await dbFactory.GetDatabaseAsync();
+
+  //   // Assert
+  //   //Assert.Same(mockDbType.Object, result);
+  // }
+
+  // [Fact]
+  // public async Task GetDatabaseAsync_NoMatch_ReturnsNull()
+  // {
+  //   // Arrange
+  //   var mockDbType = new Mock<IDatabase>();
+  //   mockDbType.Setup(x => x.GetSchema()).Returns(new DatabaseSchema());
+
+  //   var dbFactory = new DatabaseFactory("");
+  //   dbFactory.DatabaseTypes = new List<IDatabase>();
+
+  //   // Act
+  //   var result = await dbFactory.GetDatabaseAsync();
+
+  //   // Assert
+  //   Assert.Null(result);
+  // }
+
+  // [Fact]
+  // public async Task GetDatabaseAsync_LoadsDatabaseTypes()
+  // {
+  //   // Arrange
+  //   var mockLoader = new Mock<IDatabaseLoader>();
+  //   var dbFactory = new DatabaseFactory("", mockLoader.Object);
+
+  //   // Act
+  //   var result = await dbFactory.GetDatabaseAsync();
+
+  //   // Assert
+  //   mockLoader.Verify(x => x.LoadDatabaseTypes(), Times.Once);
+  // }
+  //}
 }
 
 

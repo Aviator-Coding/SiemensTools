@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using System.Reflection;
+using Microsoft.Data.Sqlite;
 using SiemensTools.Database;
 using static SiemensTools.Database.DatabaseSchema;
 
@@ -9,12 +10,24 @@ public class DatabaseFactory
   const string tableName = "logdata";
   private readonly SqliteConnection _connection;
 
+  private readonly List<IDatabase> DatabaseTypes;
+
   public DatabaseFactory(string databaseFilename)
   {
+    DatabaseTypes = LoadDatabaseTypes();
     var connectionString = $"Data Source={databaseFilename}";
 
     _connection = new SqliteConnection(connectionString);
     SQLitePCL.Batteries_V2.Init();
+  }
+
+  private List<IDatabase> LoadDatabaseTypes()
+  {
+    var types = Assembly.GetExecutingAssembly().GetTypes().Where(t => typeof(IDatabase).IsAssignableFrom(t)).Where(t => !t.IsInterface);
+    //.Where(t => typeof(IDatabase).IsAssignableFrom(t)!);
+
+    return types.Select(t => (IDatabase)Activator.CreateInstance(t)!).ToList();
+    //return new List<IDatabase>();
   }
 
   private async Task OpenConnectionAsync()
@@ -23,7 +36,6 @@ public class DatabaseFactory
       await _connection.OpenAsync();
     return;
   }
-
 
   private async Task<DatabaseSchema> GetDatabaseSchemaAsync()
   {
@@ -48,5 +60,12 @@ public class DatabaseFactory
     }
 
     return schema;
+  }
+
+  public async Task<IDatabase> GetDatabaseAsync()
+  {
+    var schema = await GetDatabaseSchemaAsync();
+    var databaseType = DatabaseTypes.First(t => t.GetSchema().Equals(schema));
+    return databaseType;
   }
 }
