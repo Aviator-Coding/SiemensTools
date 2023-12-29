@@ -1,4 +1,7 @@
-﻿using System.Reflection;
+﻿using System.Diagnostics;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Text.Json;
 using Microsoft.Data.Sqlite;
 using SiemensTools.Database;
 using static SiemensTools.Database.DatabaseSchema;
@@ -10,11 +13,11 @@ public class DatabaseFactory
   const string tableName = "logdata";
   private readonly SqliteConnection _connection;
 
-  private readonly List<IDatabase> DatabaseTypes;
+  private readonly List<IDatabase> _databaseTypes;
 
   public DatabaseFactory(string databaseFilename)
   {
-    DatabaseTypes = LoadDatabaseTypes();
+    _databaseTypes = LoadDatabaseTypes();
     var connectionString = $"Data Source={databaseFilename}";
 
     _connection = new SqliteConnection(connectionString);
@@ -24,10 +27,7 @@ public class DatabaseFactory
   private List<IDatabase> LoadDatabaseTypes()
   {
     var types = Assembly.GetExecutingAssembly().GetTypes().Where(t => typeof(IDatabase).IsAssignableFrom(t)).Where(t => !t.IsInterface);
-    //.Where(t => typeof(IDatabase).IsAssignableFrom(t)!);
-
     return types.Select(t => (IDatabase)Activator.CreateInstance(t)!).ToList();
-    //return new List<IDatabase>();
   }
 
   private async Task OpenConnectionAsync()
@@ -65,7 +65,8 @@ public class DatabaseFactory
   public async Task<IDatabase> GetDatabaseAsync()
   {
     var schema = await GetDatabaseSchemaAsync();
-    var databaseType = DatabaseTypes.First(t => t.GetSchema().Equals(schema));
+    if (_databaseTypes.Count == 0) throw new Exception("No database types found");
+    var databaseType = _databaseTypes.First(t => t.GetSchema().Equals(schema));
     return databaseType;
   }
 }

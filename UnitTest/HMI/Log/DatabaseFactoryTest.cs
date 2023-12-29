@@ -3,6 +3,7 @@ using SiemensTools.Database;
 using SiemensTools.HMI.Log;
 using Xunit;
 using Moq;
+using SiemensTools.HMI.Log.Type.Alarm;
 
 namespace UnitTest.HMI.Log;
 public class DatabaseFactoryTest
@@ -130,7 +131,7 @@ public class DatabaseFactoryTest
 
 
   [Fact]
-  public async Task GetDatabaseAsync_LoadDatabaseTypes_ReturnsDatabaseTypes()
+  public void LoadDatabaseTypes_ReturnsDatabaseTypes()
   {
     var dbFactory = new DatabaseFactory(AlarmLog);
     // Act
@@ -138,6 +139,17 @@ public class DatabaseFactoryTest
       .GetMethod("LoadDatabaseTypes", BindingFlags.NonPublic | BindingFlags.Instance);
 
     var task = (List<IDatabase>)method.Invoke(dbFactory, null);
+
+  }
+
+  [Fact]
+
+  public async Task GetDatabaseAsync_ReturnsDatabaseType()
+  {
+    var dbFactory = new DatabaseFactory(AlarmLog);
+    var inst = await dbFactory.GetDatabaseAsync();
+
+    Assert.IsType<Alarm>(inst);
   }
 
 

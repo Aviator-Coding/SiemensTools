@@ -20,11 +20,6 @@ public class Alarm : IDatabase
     public DatabaseSchema GetSchema()
     {
         return new DatabaseSchema(){
-                {"VarName", "TEXT"},
-                {"TimeString", "TEXT"},
-                {"VarValue", "TEXT"},
-                {"Validity", "INT"},
-                {"Time_ms", "DOUBLE"},
                 {"Time_ms" , "DOUBLE"},
                 {"MsgProc" , "INT"},
                 {"StateAfter" , "INT"},

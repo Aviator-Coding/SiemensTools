@@ -61,4 +61,61 @@ public class DatabaseSchemaTests
     Assert.Equal("Test", column.Name);
     Assert.Equal("string", column.DataType);
   }
+
+  [Fact]
+  public void Equals_WithNull_ReturnsFalse()
+  {
+    // Arrange
+    var schema1 = new DatabaseSchema();
+
+    // Act
+    var result = schema1.Equals(null);
+
+    // Assert
+    Assert.False(result);
+  }
+
+  [Fact]
+  public void Equals_WithSameSchema_ReturnsTrue()
+  {
+    // Arrange
+    var schema1 = new DatabaseSchema
+    {
+        { "Id", "int" },
+        { "Name", "string" }
+    };
+
+    var schema2 = new DatabaseSchema
+    {
+        { "Id", "int" },
+        { "Name", "string" }
+    };
+
+    // Act
+    var result = schema1.Equals(schema2);
+
+    // Assert
+    Assert.True(result);
+  }
+
+  [Fact]
+  public void Equals_WithDifferentSchema_ReturnsFalse()
+  {
+    // Arrange
+    var schema1 = new DatabaseSchema
+    {
+        { "Id", "int" }
+    };
+
+    var schema2 = new DatabaseSchema
+    {
+        { "Name", "string" }
+    };
+
+    // Act
+    var result = schema1.Equals(schema2);
+
+    // Assert
+    Assert.False(result);
+  }
 }
