@@ -19,9 +19,9 @@ public class Data : IDatabase
         entries = new List<DataEntry>();
     }
 
-    public DatabaseSchema GetSchema()
+    public Schema GetSchema()
     {
-        return new DatabaseSchema(){
+        return new Schema(){
                 {"VarName", "TEXT"},
                 {"TimeString", "TEXT"},
                 {"VarValue", "TEXT"},

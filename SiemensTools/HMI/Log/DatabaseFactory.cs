@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 using System.Text.Json;
 using Microsoft.Data.Sqlite;
 using SiemensTools.Database;
-using static SiemensTools.Database.DatabaseSchema;
+using static SiemensTools.Database.Schema;
 
 namespace SiemensTools.HMI.Log;
 
@@ -37,7 +37,7 @@ public class DatabaseFactory
     return;
   }
 
-  private async Task<DatabaseSchema> GetDatabaseSchemaAsync()
+  private async Task<Schema> GetDatabaseSchemaAsync()
   {
     await OpenConnectionAsync();
 
@@ -45,17 +45,12 @@ public class DatabaseFactory
     var command = _connection.CreateCommand();
     command.CommandText = $@"PRAGMA table_info('{tableName}')";
 
-    var schema = new DatabaseSchema();
+    var schema = new Schema();
     using (var reader = await command.ExecuteReaderAsync())
     {
       while (await reader.ReadAsync())
       {
-        schema.Add(new Column()
-        {
-          Name = reader.GetString(1),
-          DataType = reader.GetString(2)
-        });
-
+        schema.Add(new Column(reader.GetString(1), reader.GetString(2)));
       }
     }
 

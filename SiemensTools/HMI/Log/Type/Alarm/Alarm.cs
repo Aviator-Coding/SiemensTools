@@ -17,9 +17,9 @@ public class Alarm : IDatabase
         entries = new List<AlarmEntry>();
     }
 
-    public DatabaseSchema GetSchema()
+    public Schema GetSchema()
     {
-        return new DatabaseSchema(){
+        return new Schema(){
                 {"Time_ms" , "DOUBLE"},
                 {"MsgProc" , "INT"},
                 {"StateAfter" , "INT"},

@@ -11,7 +11,7 @@ public class DatabaseFactoryTest
   const string AlarmLog = "Data/Alarms/Alarms log1.db3";
   const string DataLog = "Data/Data/StabTest0.db3";
 
-  private async Task<DatabaseSchema> GetDatabaseSchemaAsync(string dbFilename)
+  private async Task<Schema> GetDatabaseSchemaAsync(string dbFilename)
   {
     // Act
     var dbFactory = new DatabaseFactory(dbFilename);
@@ -21,7 +21,7 @@ public class DatabaseFactoryTest
       .GetMethod("GetDatabaseSchemaAsync", BindingFlags.NonPublic | BindingFlags.Instance);
 
     // Use Task.Run to invoke method and wait for result
-    var task = (Task<DatabaseSchema>)method.Invoke(dbFactory, null);
+    var task = (Task<Schema>)method.Invoke(dbFactory, null);
     return await task;
 
   }

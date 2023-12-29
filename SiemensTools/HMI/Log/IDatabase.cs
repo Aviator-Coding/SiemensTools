@@ -4,7 +4,7 @@ namespace SiemensTools.HMI.Log;
 
 public interface IDatabase
 {
-  DatabaseSchema GetSchema();
+  Schema GetSchema();
   void ReadData();
 }
 

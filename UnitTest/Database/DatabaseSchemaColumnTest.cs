@@ -1,7 +1,4 @@
-// New tests use XUnit like existing tests
-using Xunit;
-using static SiemensTools.Database.DatabaseSchema;
-using static SiemensTools.Database.DatabaseSchema.Column;
+using SiemensTools.Database;
 namespace UnitTest.Database;
 public class DatabaseSchemaColumnTests
 {

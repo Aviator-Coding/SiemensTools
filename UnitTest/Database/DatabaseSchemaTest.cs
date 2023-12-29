@@ -1,6 +1,4 @@
-using Xunit;
 using SiemensTools.Database;
-using static SiemensTools.Database.DatabaseSchema;
 
 namespace UnitTest.Database;
 public class DatabaseSchemaTests
@@ -9,7 +7,7 @@ public class DatabaseSchemaTests
   public void GetEnumerator_ReturnsColumnsEnumerator()
   {
     // Arrange
-    var schema = new DatabaseSchema
+    var schema = new Schema
     {
         { "Id", "int" },
         { "Name", "string" }
@@ -26,10 +24,10 @@ public class DatabaseSchemaTests
   public void Add_AddsColumnToList()
   {
     // Arrange
-    var schema = new DatabaseSchema();
+    var schema = new Schema();
 
     // Act
-    schema.Add(new DatabaseSchema.Column("Test", "string"));
+    schema.Add(new Column("Test", "string"));
 
     // Assert
     Assert.Single(schema);
@@ -40,7 +38,7 @@ public class DatabaseSchemaTests
   public void AddColumnOverload_CreatesAndAddsColumn()
   {
     // Arrange
-    var schema = new DatabaseSchema
+    var schema = new Schema
     {
         // Act
         { "Test", "string" }
@@ -55,7 +53,7 @@ public class DatabaseSchemaTests
   public void ColumnClass_ConstructorAndPropertiesWork()
   {
     // Arrange & Act
-    var column = new DatabaseSchema.Column("Test", "string");
+    var column = new Column("Test", "string");
 
     // Assert
     Assert.Equal("Test", column.Name);
@@ -66,7 +64,7 @@ public class DatabaseSchemaTests
   public void Equals_WithNull_ReturnsFalse()
   {
     // Arrange
-    var schema1 = new DatabaseSchema();
+    var schema1 = new Schema();
 
     // Act
     var result = schema1.Equals(null);
@@ -79,13 +77,13 @@ public class DatabaseSchemaTests
   public void Equals_WithSameSchema_ReturnsTrue()
   {
     // Arrange
-    var schema1 = new DatabaseSchema
+    var schema1 = new Schema
     {
         { "Id", "int" },
         { "Name", "string" }
     };
 
-    var schema2 = new DatabaseSchema
+    var schema2 = new Schema
     {
         { "Id", "int" },
         { "Name", "string" }
@@ -102,12 +100,12 @@ public class DatabaseSchemaTests
   public void Equals_WithDifferentSchema_ReturnsFalse()
   {
     // Arrange
-    var schema1 = new DatabaseSchema
+    var schema1 = new Schema
     {
         { "Id", "int" }
     };
 
-    var schema2 = new DatabaseSchema
+    var schema2 = new Schema
     {
         { "Name", "string" }
     };
